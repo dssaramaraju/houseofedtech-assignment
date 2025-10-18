@@ -47,6 +47,52 @@ This app demonstrates a complete production-grade workflow including:
 | **Language** | TypeScript |
 | **Deployment** | Vercel (Frontend) + Supabase Cloud (Database) |
 
+---
+
+## 🚀 Getting Started (Run Locally)
+
+Follow these steps to set up and run the project locally on your machine.
+
+### 1️⃣ Clone the repository
+```bash
+git clone https://github.com/yourusername/houseofedtech-assignment.git
+cd houseofedtech-assignment
+2️⃣ Install dependencies
+bash
+Copy code
+npm install
+3️⃣ Configure environment variables
+Create a .env.local file in the root directory and add the following:
+
+env
+Copy code
+DATABASE_URL=your_supabase_database_url
+NEXTAUTH_SECRET=your_secret_key
+NEXTAUTH_URL=http://localhost:3000
+
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+⚠️ Replace the placeholders with your actual credentials from Supabase and Google Cloud Console.
+
+4️⃣ Push Prisma schema to the database
+bash
+Copy code
+npx prisma db push
+5️⃣ Start the development server
+bash
+Copy code
+npm run dev
+Now open your browser and go to:
+👉 http://localhost:3000
+
+6️⃣ (Optional) Generate Prisma Client
+If needed, run:
+
+bash
+Copy code
+npx prisma generate
+✅ That’s it! Your full-stack application should now be running locally 🚀
+
 ## 🧠 Project Architecture Overview
 
 The application follows a clean full-stack architecture using the **Next.js App Router**.
