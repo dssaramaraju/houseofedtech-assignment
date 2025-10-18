@@ -2,7 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
-import { Github, Linkedin, Mail, Briefcase, Trash2, Edit3 } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Briefcase,
+  Trash2,
+  Edit3,
+  UserCircle2,
+} from "lucide-react";
 
 interface Application {
   id: number;
@@ -12,24 +20,28 @@ interface Application {
   date: string;
 }
 
-export default function ApplicationsView() {
+interface ApplicationsViewProps {
+  session: any;
+}
+
+export default function ApplicationsView({ session }: ApplicationsViewProps) {
   const [applications, setApplications] = useState<Application[]>([]);
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [status, setStatus] = useState("Applied");
 
-  // ✅ Load saved applications from localStorage
+  // ✅ Load applications from localStorage
   useEffect(() => {
     const stored = localStorage.getItem("applications");
     if (stored) setApplications(JSON.parse(stored));
   }, []);
 
-  // ✅ Save applications whenever they change
+  // ✅ Save applications when changed
   useEffect(() => {
     localStorage.setItem("applications", JSON.stringify(applications));
   }, [applications]);
 
-  // ✅ Add a new application
+  // ✅ Add new application
   const addApplication = () => {
     if (!company || !role) return;
     const newApp: Application = {
@@ -45,18 +57,18 @@ export default function ApplicationsView() {
     setStatus("Applied");
   };
 
-  // ✅ Delete an application
-  const deleteApplication = (id: number) => {
-    setApplications(applications.filter((app) => app.id !== id));
-  };
-
-  // ✅ Edit an application
+  // ✅ Edit existing application
   const editApplication = (id: number) => {
     const app = applications.find((a) => a.id === id);
     if (!app) return;
     setCompany(app.company);
     setRole(app.role);
     setStatus(app.status);
+    setApplications(applications.filter((a) => a.id !== id));
+  };
+
+  // ✅ Delete an application
+  const deleteApplication = (id: number) => {
     setApplications(applications.filter((a) => a.id !== id));
   };
 
@@ -72,24 +84,47 @@ export default function ApplicationsView() {
     <div className="min-h-screen bg-gray-50 text-gray-900">
       {/* Header */}
       <header className="flex justify-between items-center px-8 py-6 bg-white shadow-sm">
-        <h1 className="text-2xl font-bold text-indigo-600 flex items-center gap-2">
-          <Briefcase className="w-6 h-6 text-indigo-500" />
-          Career Tracker Dashboard
-        </h1>
-        <button
-          onClick={() => signOut({ callbackUrl: "/" })}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
-        >
-          Sign Out
-        </button>
+        <div className="flex items-center gap-3">
+          <Briefcase className="w-7 h-7 text-indigo-600" />
+          <div>
+            <h1 className="text-2xl font-bold text-indigo-700">
+              Career Tracker Dashboard
+            </h1>
+            <p className="text-sm text-gray-500">Stay organized. Stay hired.</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          {/* User Info */}
+          {session?.user?.image ? (
+            <img
+              src={session.user.image}
+              alt="User avatar"
+              className="w-10 h-10 rounded-full border"
+            />
+          ) : (
+            <UserCircle2 className="w-10 h-10 text-gray-400" />
+          )}
+          <span className="text-gray-800 font-medium">
+            {session?.user?.name || "User"}
+          </span>
+
+          {/* Sign Out */}
+          <button
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
+          >
+            Sign Out
+          </button>
+        </div>
       </header>
 
-      {/* Summary Section */}
+      {/* Summary Cards */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-4 px-8 py-6">
         {Object.entries(summary).map(([key, value]) => (
           <div
             key={key}
-            className="bg-white rounded-xl shadow p-4 text-center border-t-4 border-indigo-500"
+            className="bg-white rounded-xl shadow p-4 text-center border-t-4 border-indigo-500 hover:shadow-md transition"
           >
             <p className="text-sm text-gray-500">{key}</p>
             <p className="text-2xl font-semibold text-indigo-600">{value}</p>
@@ -97,7 +132,7 @@ export default function ApplicationsView() {
         ))}
       </section>
 
-      {/* Add Application Form */}
+      {/* Add New Application */}
       <section className="bg-white mx-8 p-6 rounded-xl shadow mb-8">
         <h2 className="text-lg font-semibold mb-4 text-indigo-600">
           Add New Application
@@ -136,7 +171,7 @@ export default function ApplicationsView() {
         </div>
       </section>
 
-      {/* Applications List */}
+      {/* Application List */}
       <section className="px-8 pb-20">
         <h2 className="text-xl font-semibold mb-4 text-indigo-600">
           My Applications
