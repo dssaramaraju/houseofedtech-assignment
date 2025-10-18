@@ -224,7 +224,7 @@ export default function ApplicationsView({ session }: ApplicationsViewProps) {
             <Github className="w-4 h-4" /> GitHub
           </a>
           <a
-            href="https://linkedin.com/in/dssaramaraju"
+            href="https://www.linkedin.com/in/d-s-s-a-ramaraju-a79103354/"
             target="_blank"
             className="hover:text-indigo-600 flex items-center gap-1"
           >
