@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { signOut } from "next-auth/react";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 interface Application {
   id: number;
@@ -29,17 +30,13 @@ export default function ApplicationsClient({ session }: { session: any }) {
     }
 
     if (editId) {
-      // Update existing
       setApplications((prev) =>
         prev.map((a) =>
-          a.id === editId
-            ? { ...a, title, company, status, notes }
-            : a
+          a.id === editId ? { ...a, title, company, status, notes } : a
         )
       );
       setEditId(null);
     } else {
-      // Add new
       const newApp: Application = {
         id: Date.now(),
         title,
@@ -51,7 +48,6 @@ export default function ApplicationsClient({ session }: { session: any }) {
       setApplications([...applications, newApp]);
     }
 
-    // Reset form
     setTitle("");
     setCompany("");
     setStatus("Applied");
@@ -81,7 +77,7 @@ export default function ApplicationsClient({ session }: { session: any }) {
             <img
               src={session.user.image}
               alt={session.user.name ?? "User"}
-              className="w-10 h-10 rounded-full"
+              className="w-10 h-10 rounded-full border"
             />
           )}
           <div>
@@ -103,9 +99,15 @@ export default function ApplicationsClient({ session }: { session: any }) {
       {/* Main Dashboard */}
       <main className="flex-1 flex flex-col items-center justify-start p-6">
         <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-8">
-          <h1 className="text-3xl font-bold mb-6 text-gray-800 text-center">
-            🚀 Applications Dashboard
-          </h1>
+          {/* Branding */}
+          <div className="text-center mb-6">
+            <h1 className="text-3xl font-bold text-gray-800">
+              🚀 Career Tracker
+            </h1>
+            <p className="text-gray-500 text-sm">
+              Manage and monitor your job applications efficiently.
+            </p>
+          </div>
 
           {/* Add/Edit Form */}
           <form
@@ -193,6 +195,41 @@ export default function ApplicationsClient({ session }: { session: any }) {
             </div>
           )}
         </div>
+
+        {/* Footer */}
+        <footer className="w-full max-w-4xl text-center mt-10 border-t pt-6 text-gray-600 text-sm">
+          <p>
+            Developed by{" "}
+            <span className="font-semibold text-gray-800">
+              Datla S S A Ramaraju
+            </span>
+          </p>
+          <div className="flex justify-center gap-5 mt-3 text-gray-500">
+            <a
+              href="https://github.com/dssaramaraju"
+              target="_blank"
+              className="flex items-center gap-2 hover:text-gray-700 transition"
+            >
+              <Github size={16} /> GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/dssaramaraju"
+              target="_blank"
+              className="flex items-center gap-2 hover:text-gray-700 transition"
+            >
+              <Linkedin size={16} /> LinkedIn
+            </a>
+            <a
+              href="mailto:ramarajudatlassa@gmail.com"
+              className="flex items-center gap-2 hover:text-gray-700 transition"
+            >
+              <Mail size={16} /> Email
+            </a>
+          </div>
+          <p className="mt-3 text-xs text-gray-400">
+            © {new Date().getFullYear()} Career Tracker. All rights reserved.
+          </p>
+        </footer>
       </main>
     </div>
   );
