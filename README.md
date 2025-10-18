@@ -12,6 +12,13 @@ This app demonstrates a complete production-grade workflow including:
 - Type-safe backend + Tailwind frontend
 
 ---
+
+## 🔗 Live Demo
+🌐 **Deployed App:** [https://houseofedtech-assignment-seven.vercel.app/](https://houseofedtech-assignment-seven.vercel.app/)
+
+💻 **GitHub Repository:** [https://github.com/yourusername/houseofedtech-assignment](https://github.com/dssaramaraju/houseofedtech-assignment)
+
+---
 ## ✨ Features
 
 - 🔐 **Google Authentication** using NextAuth and Prisma Adapter  
